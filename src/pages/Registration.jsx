@@ -92,7 +92,7 @@ const Registration = () => {
                   password:""
                             }) 
     setLoad(false)
-    toast.success("Registration successfully! Plase Verfiy your email");
+    toast.success("Registration successfully! Plase Verfiy Your Email");
 
                 setTimeout(()=>{
                   navigate("/login ")
