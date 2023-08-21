@@ -11,8 +11,6 @@ import { RotatingLines } from 'react-loader-spinner'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 const Registration = () => {
   const auth = getAuth();
 
@@ -48,9 +46,6 @@ const Registration = () => {
       setPassworderror("");
     }
   }
-
-
-
   
   let handelRegistration=()=>{
 
@@ -67,7 +62,7 @@ const Registration = () => {
     if(fromdata.email && fromdata.fullname && fromdata.password){
 
       let pattern = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/i;  
-      let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+      // var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
         if(!pattern.test(fromdata.email)){
            setEmailerror("Invalid Email")
@@ -76,9 +71,9 @@ const Registration = () => {
         if(!fromdata.fullname.length > 3){
           setFullnameerror("plase up to 3 words")
         }
-        if(!re.test(fromdata.password)){
-           setPassworderror(" min 8 letter password, with at least a symbol, upper and lower case letters and a number")
-          }
+        // if(!re.test(fromdata.password)){
+        //    setPassworderror(" min 8 letter password, with at least a symbol, upper and lower case letters and a number")
+        //   }
 
           setLoad(true);
       createUserWithEmailAndPassword(auth, fromdata.email, fromdata.password)

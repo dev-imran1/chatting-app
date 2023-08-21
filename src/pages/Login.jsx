@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
 import bgimg from '../assets/regright.png'
 import Image from '../components/Image'
+import Google from '../assets/Google.png'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import {AiFillEye, AiFillEyeInvisible} from 'react-icons/ai';
 import {FcGoogle} from 'react-icons/fc';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"; 
+import { getAuth, signInWithEmailAndPassword,GoogleAuthProvider , signInWithPopup } from "firebase/auth"; 
 import { toast } from 'react-toastify';
-
 
 const Login = () => {
     const auth = getAuth();
-
+    const provider = new GoogleAuthProvider();
     let navigate = useNavigate();
-    console.log(navigate);
   
     let [fromdata, setfromdata] =useState ({
         email:"",
@@ -36,15 +35,16 @@ const Login = () => {
             setPassworderr("place enter your password")
         }
         if(fromdata.email && fromdata.password){
-            let EMAIL_REGEX = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/i; 
-            let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+            // let EMAIL_REGEX = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/i; 
+            // let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-            if(!EMAIL_REGEX.test(fromdata.email)){
-                setEmailerror("invalid emai")
-            }
-            if(!re.test(fromdata.password)){
-                setPassworderr("min 8 letter password, with at least a symbol, upper and lower case letters and a number")
-            }
+            // if(!EMAIL_REGEX.test(fromdata.email)){
+            //     setEmailerror("invalid emai")
+            // }
+            // if(!re.test(fromdata.password)){
+            //     setPassworderr("min 8 letter password, with at least a symbol, upper and lower case letters and a number")
+            // }
+           
       
         signInWithEmailAndPassword(auth, fromdata.email, fromdata.password).then((user)=>{ 
 
@@ -71,8 +71,14 @@ const Login = () => {
         }
         
     }
-    
 
+    let handelgoogle =()=>{
+      signInWithPopup(auth, provider)
+  .then((result) => {
+    navigate("/home")
+    toast('Your account Log in')
+  })
+    }
 
   return (
     <div className='registration'>
@@ -80,8 +86,7 @@ const Login = () => {
       <div className='text__containt'>
       <h1 className='text__containt--title'>Login to your account!</h1>
       <div className='google'>
-        <Link ><FcGoogle /> </Link>
-        <p>Login with Google</p>
+        <Button className='googleBtn' onClick={handelgoogle}><Link to={"/home"}><Image src={Google}/></Link></Button>
       </div>
       <TextField onChange={handelChange} name='email' type='text' className='inputcss inputcssNext' id="standard-basic" label="Email Address" variant="standard" />
       {emailError &&
@@ -100,6 +105,7 @@ const Login = () => {
       
       <Button onClick={handelLogin} className='regbtnnext' variant="contained">Login to Continue</Button>
       <p >Don’t have an account ?  <Link className='focus' to="/"> Sign Up</Link></p>
+      <p>Forgot Password <Link to="/forgotpassword" className='focus forgotfocus'>Click Here</Link></p>
       </div>
     </div>
     <div className='reg-right'>
