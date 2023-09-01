@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import bgimg from '../assets/regimg.png'
 import Image from '../components/Image'
 import TextField from '@mui/material/TextField';
@@ -11,9 +11,9 @@ import { RotatingLines } from 'react-loader-spinner'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const Registration = () => {
   const auth = getAuth();
-
   let navigate = useNavigate();
   let [fromdata, setfromdata]=useState({
     email:"",
@@ -31,24 +31,18 @@ const Registration = () => {
     setfromdata({
       ...fromdata,
       [e.target.name]: e.target.value
-    })
-  
-
+    }) 
     if(e.target.name == "email"){
       setEmailerror("");
     }
-
     if(e.target.name == "fullname"){
       setFullnameerror("");
     }
-
     if(e.target.name == "password"){
       setPassworderror("");
     }
   }
-  
   let handelRegistration=()=>{
-
     if(!fromdata.email){
       setEmailerror("plase Input your Email")
     }
@@ -58,12 +52,9 @@ const Registration = () => {
     if(!fromdata.password){
       setPassworderror("plase Input your Password")
     }
-
     if(fromdata.email && fromdata.fullname && fromdata.password){
-
       let pattern = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/i;  
       // var re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-
         if(!pattern.test(fromdata.email)){
            setEmailerror("Invalid Email")
           }
@@ -74,12 +65,9 @@ const Registration = () => {
         // if(!re.test(fromdata.password)){
         //    setPassworderror(" min 8 letter password, with at least a symbol, upper and lower case letters and a number")
         //   }
-
           setLoad(true);
       createUserWithEmailAndPassword(auth, fromdata.email, fromdata.password)
                   .then(() => {
-
-
             sendEmailVerification(auth.currentUser).then(() => {
                   setfromdata({
                   email:"",
@@ -103,11 +91,9 @@ const Registration = () => {
       toast.error("Email alrady exists");
     }
     setLoad(false)
-
   });
 
     }
-
   };
 
   return (
@@ -151,7 +137,6 @@ const Registration = () => {
           Sign Up
           </Button>
         }
-
         <p>Already  have an account ? <Link className='focus' to="/login"> Sign In</Link></p>
         </div>
       </div> 
@@ -159,7 +144,6 @@ const Registration = () => {
         <Image className="reg__img" src={bgimg} alt="registraion image" />
       </div>
     </div>
-
   )
 }
 

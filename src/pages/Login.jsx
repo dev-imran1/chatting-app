@@ -10,12 +10,16 @@ import {AiFillEye, AiFillEyeInvisible} from 'react-icons/ai';
 import {FcGoogle} from 'react-icons/fc';
 import { getAuth, signInWithEmailAndPassword,GoogleAuthProvider , signInWithPopup } from "firebase/auth"; 
 import { toast } from 'react-toastify';
+import { logedUser } from '../slices/userSlice';
+import { useDispatch } from 'react-redux';
+
 
 const Login = () => {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
     let navigate = useNavigate();
-  
+
+    let dispatch = useDispatch();
     let [fromdata, setfromdata] =useState ({
         email:"",
         password:""
@@ -35,21 +39,11 @@ const Login = () => {
             setPassworderr("place enter your password")
         }
         if(fromdata.email && fromdata.password){
-            // let EMAIL_REGEX = /(\<|^)[\w\d._%+-]+@(?:[\w\d-]+\.)+(\w{2,})(\>|$)/i; 
-            // let re = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-
-            // if(!EMAIL_REGEX.test(fromdata.email)){
-            //     setEmailerror("invalid emai")
-            // }
-            // if(!re.test(fromdata.password)){
-            //     setPassworderr("min 8 letter password, with at least a symbol, upper and lower case letters and a number")
-            // }
-           
-      
         signInWithEmailAndPassword(auth, fromdata.email, fromdata.password).then((user)=>{ 
-
+          console.log(user.user.emailVerified);
           if(user.user.emailVerified){
             navigate ("/home")
+            dispatch(logedUser(user.user))
             toast.success("Thank You Email & Password Succesfully Login")
           }else{
             toast.error("plase verify your email for login")
@@ -76,6 +70,7 @@ const Login = () => {
       signInWithPopup(auth, provider)
   .then((result) => {
     navigate("/home")
+    
     toast('Your account Log in')
   })
     }
