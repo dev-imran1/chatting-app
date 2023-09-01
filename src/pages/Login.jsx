@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import bgimg from '../assets/regright.png'
 import Image from '../components/Image'
 import Google from '../assets/Google.png'
@@ -11,7 +11,8 @@ import {FcGoogle} from 'react-icons/fc';
 import { getAuth, signInWithEmailAndPassword,GoogleAuthProvider , signInWithPopup } from "firebase/auth"; 
 import { toast } from 'react-toastify';
 import { logedUser } from '../slices/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 
 const Login = () => {
@@ -24,6 +25,15 @@ const Login = () => {
         email:"",
         password:""
     });
+
+
+    let data = useSelector(state =>state.logedUser.value)
+  
+        useEffect(()=>{
+          if(!data){
+            navigate("/login")
+          }
+        },[])
     
     
 
@@ -43,7 +53,8 @@ const Login = () => {
           console.log(user.user.emailVerified);
           if(user.user.emailVerified){
             navigate ("/home")
-            dispatch(logedUser(user.user))
+            dispatch(logedUser(user.user));
+            localStorage.setItem("user",  JSON.stringify(user.user))
             toast.success("Thank You Email & Password Succesfully Login")
           }else{
             toast.error("plase verify your email for login")
