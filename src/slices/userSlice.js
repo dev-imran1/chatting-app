@@ -4,6 +4,7 @@ export const userSlice = createSlice({
     
   name: 'loginUser',
   initialState: {
+    // value : 0; 
     value: localStorage.getItem("user") ?JSON.parse(localStorage.getItem("user")):null
     // permenant data dore rakhe localstorage. redux er ta temporary data
   },

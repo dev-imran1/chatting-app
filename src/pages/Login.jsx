@@ -27,12 +27,13 @@ const Login = () => {
     });
 
 
-    let data = useSelector(state =>state.logedUser.value)
+    let data = useSelector(state => state.logedUser.value)
   
         useEffect(()=>{
           if(!data){
             navigate("/login")
           }
+          
         },[])
     
     
